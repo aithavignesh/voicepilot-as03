@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: voicepilot-as03
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: voicepilot-db
+          property: connectionString
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini
+      - key: CORS_ORIGIN
+        value: '*'
+databases:
+  - name: voicepilot-db
+    plan: free
+    databaseName: voicepilot
+    user: voicepilot
